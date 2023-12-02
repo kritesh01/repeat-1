@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Repeat With Me!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      *{box-sizing: border-box;margin: 0;padding: 0;font-family: 'Montserrat', sans-serif;}
+      *:focus{outline: none;}
+      .mainbody{height:100vh;font-family:var(--ff7);}
+      .inrBody{background: #ffddd3;}
+      .countDiv{height:30px;width:30px;background-color:#3B71CA;color:#fff;font-size:20px;}
+      .readButton{padding:10px 25px;background-color:#3B71CA;color:#fff;font-weight:bold;box-shadow:0 0 10px #3B71CA;}
+
+      .hw100{height:100%;width:100%;}
+      .flex {display: flex;}
+      .flexmid {display: flex;justify-content: center;align-items: center;}
+      .flexcol {display: flex;flex-direction: column;}
+      .jcc {justify-content: center;}
+      .jcfs {justify-content: flex-start;}      
+      .aic {align-items: center;}
+      .fdc {flex-direction: column;}
+      .pt60{padding-top: 60px;}
+      .pb30{padding-bottom: 30px;}
+      .ml10{margin-left: 10px;} 
+      .plr60{padding:0 60px;} 
+      .pt50{padding-top: 50px;} 
+      .mb100{margin-bottom: 100px;} 
+      .br5{border-radius:5px;}
+      .cup{cursor: pointer;}
+    </style>
+  </head>
+  <body>
+    <div class="mainbody bor">
+      <div class="inrBody hw100 flex flexcol fdc bor">
+        <h1 class="flexmid pt60 pb30 bor">
+          Repeat With Me 
+          <div class="countDiv flexmid br5 ml10 bor" onclick="rmLocalStorage()">
+            0
+          </div>
+        </h1>
+        <div class="flex jcfs plr60 bor">
+          <ol class="orderedList flex flexcol fdc bor">
+          </ol>
+        </div>
+        <div class="flex jcc pt50 pb100 ">
+          <div class="readButton borx4 br5 cup mb100" onclick="clickReadButton()">
+            I've Read
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      var inrBody = divv(".inrBody");
+      var orderedList = divv(".orderedList")
+      var readButton = divv(".readButton")
+      var countDiv = divv(".countDiv")
+      var count = localStorgeCount(), btnCooldown = false, rmCount=0;
+      setRandomBGcolor()
+      setList()
+      setCountInPage()
+      function setRandomBGcolor(){
+        var bgColors = ["#fdf8e2", "#ffddd3", "#f3bfb3", "#5ea9be", "#9acde0", "#cbe1ef"]
+        var random = Math.floor(Math.random()*(7-1)+1);
+        inrBody.style.backgroundColor = bgColors[random]
+      }
+      function setList(){
+        const heartTexts = [
+          "I will EARN $750 dollar by 29th Dec, 2023.",
+          "I LOVE myself therefore I'm gonna treat my BODY as a temple",
+          "I've SUPER memory.",
+          "I've SUPER concentration.",
+          "I thank GOD for my existence",
+        ]
+        heartTexts.forEach(text => {
+          const li = document.createElement('li');
+          const csss = ['pb14']
+          li.innerHTML = text;
+          li.classList.add(...csss);
+          orderedList.appendChild(li)
+        })
+      }
+      function clickReadButton(){
+        if(!btnCooldown){
+          readButton.style.backgroundColor = "#3d8bfd";
+          readButton.style.boxShadow = "none";
+          readButton.style.border = "1px solid #ccc";
+          readButton.style.color = "#ddd";
+          increaseCount()
+          btnCooldown = true;
+          setTimeout(()=>{
+            btnCooldown = false;
+            readButton.style.backgroundColor = "#3B71CA";
+            readButton.style.boxShadow = "0 0 10px #3B71CA";
+            readButton.style.border = "1px solid #fff";
+            readButton.style.color = "#fff";
+          },5000)
+        }
+      }
+      function increaseCount(){
+        saveLocalStorage();
+        countDiv.innerText = localStorgeCount();
+      }
+      function divv(divv){return document.querySelector(divv);}
+      function localStorgeCount(){
+        var countx = localStorage.getItem("wordCount");
+        countx = countx==null?0:parseInt(countx);
+        return countx;
+      }
+      function saveLocalStorage(){
+        var oldCount = localStorgeCount()
+        oldCount++;
+        localStorage.setItem("wordCount",oldCount);
+      }
+      function setCountInPage(){countDiv.innerText = localStorgeCount();}
+      function rmLocalStorage(){
+        if(rmCount>=20){
+          localStorage.removeItem("wordCount");
+          rmCount=0;
+          location.reload() 
+        }
+        else{
+          rmCount++;
+        }
+      }
+    </script>
+  </body>
+</html>
+<!-- 
+#fdf8e2
+#ffddd3
+#f3bfb3
+#5ea9be
+#9acde0
+#cbe1ef  
+-->
